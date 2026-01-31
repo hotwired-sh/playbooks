@@ -1,6 +1,8 @@
 # @hotwired-sh/playbooks
 
-Playbook definitions for Hotwired multi-agent workflows.
+![Hotwired](hotwired-sh.png)
+
+Playbook definitions for [Hotwired](https://hotwired.sh) multi-agent workflows.
 
 ## Installation
 
