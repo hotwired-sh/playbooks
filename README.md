@@ -1,6 +1,6 @@
 # @hotwired-sh/playbooks
 
-![Hotwired](hotwired-sh.png)
+[![Hotwired](hotwired-sh.png)](https://hotwired.sh)
 
 Playbook definitions for [Hotwired](https://hotwired.sh) multi-agent workflows.
 
