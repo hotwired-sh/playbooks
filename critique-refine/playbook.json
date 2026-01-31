@@ -1,0 +1,49 @@
+{
+  "id": "critique-refine",
+  "name": "Critique → Refine",
+  "tagline": "Editor's Loop",
+  "description": "One agent reviews with a critical eye. Another applies the feedback.",
+  "version": "1.0.0",
+  "icon": "eye",
+  "active": false,
+  "roles": [
+    {
+      "id": "critic",
+      "name": "Critic",
+      "role": "orchestrator",
+      "description": "Reviews code for issues, suggests improvements, enforces standards",
+      "promptFile": "critic.md",
+      "capabilities": {
+        "canResolveImpediments": true
+      }
+    },
+    {
+      "id": "refiner",
+      "name": "Refiner",
+      "role": "implementer",
+      "description": "Applies feedback, fixes issues, improves code quality",
+      "promptFile": "refiner.md",
+      "capabilities": {
+        "canResolveImpediments": false
+      }
+    }
+  ],
+  "phases": [
+    "reviewing",
+    "refining",
+    "verifying"
+  ],
+  "flow": [
+    "Point to code",
+    "Critic reviews",
+    "Refiner applies fixes",
+    "Critic re-reviews",
+    "Approve when ready"
+  ],
+  "humanRole": "Select what to review, set quality bar, approve final changes",
+  "bestFor": [
+    "Code review",
+    "Quality improvements",
+    "Pre-merge checks"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "plan-build",
+  "name": "Plan → Build",
+  "tagline": "Architect & Builder",
+  "description": "One agent strategizes and breaks down the work. Another executes with precision.",
+  "version": "1.0.0",
+  "icon": "rocket",
+  "roles": [
+    {
+      "id": "strategist",
+      "name": "Strategist",
+      "role": "orchestrator",
+      "description": "Analyzes requirements, creates implementation plan, reviews completed work",
+      "promptFile": "strategist.md",
+      "capabilities": {
+        "canResolveImpediments": true
+      }
+    },
+    {
+      "id": "builder",
+      "name": "Builder",
+      "role": "implementer",
+      "description": "Writes code, runs tests, implements the plan step by step",
+      "promptFile": "builder.md",
+      "capabilities": {
+        "canResolveImpediments": false
+      }
+    }
+  ],
+  "phases": [
+    "planning",
+    "executing",
+    "reviewing"
+  ],
+  "flow": [
+    "User describes goal",
+    "Strategist creates plan",
+    "Builder implements",
+    "Strategist reviews",
+    "Iterate until done"
+  ],
+  "humanRole": "Provide the goal, approve major decisions, review final output",
+  "bestFor": [
+    "New features",
+    "Refactors",
+    "Complex implementations"
+  ]
+}

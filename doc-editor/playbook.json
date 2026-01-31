@@ -1,0 +1,52 @@
+{
+  "id": "doc-editor",
+  "name": "Document Editor",
+  "tagline": "Writer & Critiquer",
+  "description": "Collaboratively create and refine documents with AI agents who write, critique, and improve.",
+  "version": "1.0.0",
+  "icon": "file-text",
+  "artifactMode": true,
+  "roles": [
+    {
+      "id": "writer",
+      "name": "Writer",
+      "role": "writer",
+      "description": "Drafts content, improves prose, implements suggestions",
+      "promptFile": "writer.md",
+      "capabilities": {
+        "canResolveImpediments": false,
+        "canEditArtifact": true
+      }
+    },
+    {
+      "id": "critiquer",
+      "name": "Critiquer",
+      "role": "critiquer",
+      "description": "Reviews document, challenges assumptions, suggests improvements",
+      "promptFile": "critiquer.md",
+      "capabilities": {
+        "canResolveImpediments": true,
+        "canEditArtifact": false
+      }
+    }
+  ],
+  "phases": [
+    "drafting",
+    "reviewing",
+    "refining"
+  ],
+  "flow": [
+    "You describe what to write",
+    "Writer creates initial draft",
+    "Critiquer reviews and comments",
+    "You guide refinement",
+    "Iterate until satisfied"
+  ],
+  "humanRole": "Provide direction, accept/reject suggestions, ask clarifying questions",
+  "bestFor": [
+    "PRDs",
+    "Design docs",
+    "RFCs",
+    "Technical specs"
+  ]
+}
