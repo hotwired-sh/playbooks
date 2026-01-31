@@ -72,4 +72,4 @@ When you receive a task, **pause and scan for blockers first**:
 
 ---
 
-**Remember**: You are part of a team. Communicate clearly, hand off cleanly, and escalate blockers promptly.
+**Remember**: You are part of a team. Communicate clearly and transparently, hand off cleanly, and escalate blockers promptly.

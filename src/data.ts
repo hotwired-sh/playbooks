@@ -5,23 +5,19 @@
  * Works in both Node.js and bundler environments.
  */
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Playbook, PlaybookMetadata } from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Go up from dist/ to package root
-const PACKAGE_ROOT = join(__dirname, '..');
+// Go up from dist/ to package root, then into playbooks/
+const PLAYBOOKS_DIR = join(__dirname, '..', 'playbooks');
 
 export const PLAYBOOK_IDS = [
-  'critique-refine',
   'doc-editor',
-  'investigate-fix',
-  'observe-code',
   'plan-build',
-  'test-implement',
 ] as const;
 
 export type PlaybookId = typeof PLAYBOOK_IDS[number];
@@ -33,7 +29,7 @@ export function listPlaybookIds(activeOnly = true): string[] {
   return PLAYBOOK_IDS.filter((id) => {
     if (!activeOnly) return true;
 
-    const metadataPath = join(PACKAGE_ROOT, id, 'playbook.json');
+    const metadataPath = join(PLAYBOOKS_DIR, id, 'playbook.json');
     if (!existsSync(metadataPath)) return false;
 
     try {
@@ -50,7 +46,7 @@ export function listPlaybookIds(activeOnly = true): string[] {
  * Load a specific playbook by ID
  */
 export function loadPlaybook(playbookId: string): Playbook | null {
-  const playbookDir = join(PACKAGE_ROOT, playbookId);
+  const playbookDir = join(PLAYBOOKS_DIR, playbookId);
 
   if (!existsSync(playbookDir)) {
     console.error(`[playbooks] Playbook directory not found: ${playbookDir}`);
