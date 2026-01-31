@@ -1,8 +1,5 @@
 /**
  * Playbook data loader
- *
- * Loads playbook files from the package directory.
- * Works in both Node.js and bundler environments.
  */
 
 import { readFileSync, existsSync } from 'node:fs';
@@ -68,9 +65,11 @@ export function loadPlaybook(playbookId: string): Playbook | null {
     // Load role prompts
     const rolePrompts: Record<string, string> = {};
     for (const role of metadata.roles) {
-      const promptPath = join(playbookDir, role.prompt_file);
-      if (existsSync(promptPath)) {
-        rolePrompts[role.id] = readFileSync(promptPath, 'utf-8');
+      if (role.promptFile) {
+        const promptPath = join(playbookDir, role.promptFile);
+        if (existsSync(promptPath)) {
+          rolePrompts[role.id] = readFileSync(promptPath, 'utf-8');
+        }
       }
     }
 

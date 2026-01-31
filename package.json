@@ -12,16 +12,14 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./data": {
-      "import": "./dist/data.js",
-      "types": "./dist/data.d.ts"
-    },
+    "./schemas/playbook.schema.json": "./schemas/playbook.schema.json",
     "./playbooks": "./playbooks",
     "./playbooks/*": "./playbooks/*"
   },
   "files": [
     "dist",
-    "playbooks"
+    "playbooks",
+    "schemas"
   ],
   "repository": {
     "type": "git",
@@ -40,6 +38,12 @@
   ],
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
+    "validate": "node --loader ts-node/esm scripts/validate-playbooks.ts",
     "prepublishOnly": "npm run build",
     "prepare": "husky"
   },
@@ -50,10 +54,14 @@
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "conventional-changelog-conventionalcommits": "^7.0.2",
+    "eslint": "^8.57.0",
     "husky": "^9.0.0",
     "semantic-release": "^24.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.0.0"
   },
   "engines": {
     "node": ">=18"

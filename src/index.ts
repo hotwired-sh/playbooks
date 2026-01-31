@@ -3,17 +3,47 @@
  *
  * Playbook definitions for Hotwired multi-agent workflows.
  *
- * Usage:
- *   import { Playbook, PlaybookMetadata } from '@hotwired-sh/playbooks';
- *   import { loadAllPlaybooks } from '@hotwired-sh/playbooks/data';
+ * @example Loading playbooks
+ * ```typescript
+ * import { loadAllPlaybooks, loadPlaybook } from '@hotwired-sh/playbooks';
+ *
+ * const playbooks = loadAllPlaybooks();
+ * const playbook = loadPlaybook('plan-build');
+ * ```
+ *
+ * @example Creating custom playbooks
+ * ```typescript
+ * import type { PlaybookMetadata, PlaybookRole } from '@hotwired-sh/playbooks';
+ * import { validatePlaybook } from '@hotwired-sh/playbooks';
+ *
+ * // Validate your playbook directory
+ * const result = validatePlaybook('./my-playbook');
+ * if (!result.valid) {
+ *   console.error(result.errors);
+ * }
+ * ```
  */
 
+// Types
 export type {
   Playbook,
   PlaybookMetadata,
   PlaybookRole,
   PlaybooksManifest,
+  ValidationResult,
 } from './types.js';
 
-// Re-export the data loader
-export { loadAllPlaybooks, loadPlaybook, listPlaybookIds, PLAYBOOK_IDS } from './data.js';
+// Data loading
+export {
+  loadAllPlaybooks,
+  loadPlaybook,
+  listPlaybookIds,
+  PLAYBOOK_IDS,
+  type PlaybookId,
+} from './data.js';
+
+// Validation
+export {
+  validatePlaybook,
+  validateAllPlaybooks,
+} from './validate.js';

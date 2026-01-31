@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hotwired.sh/schemas/playbook.json",
+  "title": "Hotwired Playbook",
+  "description": "Schema for Hotwired multi-agent playbook definitions",
+  "type": "object",
+  "required": ["id", "name", "tagline", "description", "icon", "roles", "flow", "humanRole", "bestFor"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the playbook (kebab-case)",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the playbook"
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Short tagline describing the playbook"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of what the playbook does"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version string (semver)"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon identifier (Lucide icon name)"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Whether the playbook is active and available for use",
+      "default": true
+    },
+    "roles": {
+      "type": "array",
+      "description": "Agent roles in this playbook",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "role", "description", "promptFile"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the role (kebab-case)",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name for the role"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role type identifier (e.g., 'orchestrator', 'implementer')"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of what this role does"
+          },
+          "promptFile": {
+            "type": "string",
+            "description": "Filename of the prompt markdown file (e.g., 'writer.md')",
+            "pattern": "^[a-z][a-z0-9-]*\\.md$"
+          },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "canResolveImpediments": {
+                "type": "boolean",
+                "description": "Whether this role can resolve impediments"
+              }
+            }
+          }
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "description": "Workflow phases",
+      "items": {
+        "type": "string"
+      }
+    },
+    "flow": {
+      "type": "array",
+      "description": "Flow description (array of step descriptions)",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "humanRole": {
+      "type": "string",
+      "description": "Description of human's role in the workflow"
+    },
+    "bestFor": {
+      "type": "array",
+      "description": "List of use cases this playbook is best suited for",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
