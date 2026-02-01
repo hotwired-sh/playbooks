@@ -68,13 +68,36 @@ export interface Playbook {
 }
 
 /**
- * Response format for the playbooks API
+ * Package metadata for source attribution
+ */
+export interface PackageInfo {
+  /** npm package name (e.g., '@hotwired-sh/playbooks') */
+  name: string;
+  /** Package version */
+  version: string;
+  /** Package description */
+  description: string;
+  /** Whether this is an official Hotwired package */
+  isOfficial: boolean;
+  /** Package homepage URL */
+  homepage?: string;
+  /** Package repository URL */
+  repository?: string;
+}
+
+/**
+ * Response format for the playbooks bundle
+ * This is the format of dist/playbooks.json
  */
 export interface PlaybooksManifest {
+  /** Package information for source attribution */
+  package: PackageInfo;
   /** List of all playbooks */
   playbooks: Playbook[];
-  /** Version timestamp for cache invalidation */
-  version: number;
+  /** Build timestamp for cache invalidation */
+  buildTime: number;
+  /** Schema version for forward compatibility */
+  schemaVersion: 1;
 }
 
 /**

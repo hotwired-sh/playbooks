@@ -12,6 +12,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./bundle": {
+      "import": "./dist/playbooks.json",
+      "require": "./dist/playbooks.json"
+    },
     "./schemas/playbook.schema.json": "./schemas/playbook.schema.json",
     "./playbooks": "./playbooks",
     "./playbooks/*": "./playbooks/*"
@@ -37,7 +41,8 @@
     "workflow"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run bundle",
+    "bundle": "node --import tsx scripts/bundle-playbooks.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src --ext .ts",
@@ -60,6 +65,7 @@
     "eslint": "^8.57.0",
     "husky": "^9.0.0",
     "semantic-release": "^24.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.3",
     "vitest": "^2.0.0"
   },
