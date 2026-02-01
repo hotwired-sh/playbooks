@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/hotwired-sh/playbooks/compare/v1.0.0...v1.1.0) (2026-02-01)
+
+
+### Features
+
+* add playbooks.json bundle for browser/CDN consumption ([99dc66d](https://github.com/hotwired-sh/playbooks/commit/99dc66d938f37d34647264bec1e3c558fb081a23))
+
 # 1.0.0 (2026-01-31)
 
 
