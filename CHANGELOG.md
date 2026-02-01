@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/hotwired-sh/playbooks/compare/v1.1.0...v1.2.0) (2026-02-01)
+
+
+### Features
+
+* add minHotwiredVersion field for version compatibility ([2c0c6a1](https://github.com/hotwired-sh/playbooks/commit/2c0c6a1948dc21de3b62f7f59a1a13843d64a2bf)), closes [#1](https://github.com/hotwired-sh/playbooks/issues/1)
+
 # [1.1.0](https://github.com/hotwired-sh/playbooks/compare/v1.0.0...v1.1.0) (2026-02-01)
 
 
