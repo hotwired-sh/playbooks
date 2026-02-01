@@ -53,6 +53,12 @@ export interface PlaybookMetadata {
   humanRole: string;
   /** List of use cases this playbook is best suited for */
   bestFor: string[];
+  /**
+   * Minimum Hotwired version required by this specific playbook.
+   * Overrides the package-level minHotwiredVersion if specified.
+   * Format: semver string (e.g., "1.15.0")
+   */
+  minHotwiredVersion?: string;
 }
 
 /**
@@ -83,6 +89,12 @@ export interface PackageInfo {
   homepage?: string;
   /** Package repository URL */
   repository?: string;
+  /**
+   * Minimum Hotwired version required by this package.
+   * If specified, Hotwired will refuse to sync/update if the app version is lower.
+   * Format: semver string (e.g., "1.12.0")
+   */
+  minHotwiredVersion?: string;
 }
 
 /**
