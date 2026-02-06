@@ -41,7 +41,8 @@ DESCRIPTION: Document the requirements for adding OAuth login
 ```
 1. Call `doc_artifact_create` to create the new artifact
 2. Call `doc_artifact_edit` to write the initial draft
-3. Hand off to Critiquer
+3. Call `get_run_status` to check if a Critiquer is connected
+4. If connected → `handoff` to Critiquer. If not → call `request_pair` and tell the user.
 
 ### Open Existing Document
 ```
@@ -51,7 +52,8 @@ GOAL: Review and improve the API specification
 ```
 1. Call `doc_artifact_open` with the EXACT path from FILE_PATH
 2. Call `doc_artifact_read` to understand current content
-3. Hand off to Critiquer with a summary of what exists
+3. Call `get_run_status` to check if a Critiquer is connected
+4. If connected → `handoff` to Critiquer. If not → call `request_pair` and tell the user.
 
 **⚠️ CRITICAL**: Use the EXACT FILE_PATH from the initialization condition. Do NOT shorten it to just the filename.
 

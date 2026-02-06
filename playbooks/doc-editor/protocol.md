@@ -133,6 +133,8 @@ The `doc_artifact_resolve_comment` tool supports these actions:
 - **report_impediment** - Report a blocker
 - **task_complete** - Mark a task as complete
 - **report_status** - Report your current status
+- **get_run_status** - Check run state and which agents are connected
+- **request_pair** - Request a second agent be paired to this run
 
 ### Comment Types
 

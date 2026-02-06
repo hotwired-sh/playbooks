@@ -43,6 +43,8 @@ Use these Hotwired MCP tools to communicate:
 - **report_impediment** - Report a blocker that needs human intervention
 - **task_complete** - Mark a task as complete
 - **report_status** - Report your current status
+- **get_run_status** - Check run state and which agents are connected
+- **request_pair** - Request a second agent be paired to this run
 
 ### When to Use What
 
@@ -54,6 +56,8 @@ Use these Hotwired MCP tools to communicate:
 | Finished a piece of work | Call `handoff` to send back |
 | Task fully complete | Call `task_complete` tool |
 | Periodic status update | Call `report_status` or `send_message` tool |
+| Ready to hand off for the first time | Call `get_run_status` to check if partner is connected |
+| Partner agent not connected | Call `request_pair` — do NOT handoff to nobody |
 
 ### Handoff Format
 
