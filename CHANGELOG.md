@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/hotwired-sh/playbooks/compare/v1.2.0...v1.3.0) (2026-02-06)
+
+
+### Features
+
+* add get_run_status and request_pair to protocol prompts ([51d1d01](https://github.com/hotwired-sh/playbooks/commit/51d1d01ae13368e8f323a3ff5aaac3817dd76318))
+
 # [1.2.0](https://github.com/hotwired-sh/playbooks/compare/v1.1.0...v1.2.0) (2026-02-01)
 
 
