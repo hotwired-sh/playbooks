@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/hotwired-sh/playbooks/compare/v1.3.0...v1.4.0) (2026-02-07)
+
+
+### Features
+
+* **playbooks:** add architect-team playbook with templates support ([94cae1d](https://github.com/hotwired-sh/playbooks/commit/94cae1deb7d11f54802ed678553a6d297cb8e46b))
+
 # [1.3.0](https://github.com/hotwired-sh/playbooks/compare/v1.2.0...v1.3.0) (2026-02-06)
 
 
