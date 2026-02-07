@@ -2,8 +2,8 @@
  * Playbook data loader
  */
 
-import { readFileSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Playbook, PlaybookMetadata } from './types.js';
 
@@ -13,6 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLAYBOOKS_DIR = join(__dirname, '..', 'playbooks');
 
 export const PLAYBOOK_IDS = [
+  'architect-team',
   'doc-editor',
   'plan-build',
 ] as const;
@@ -73,10 +74,23 @@ export function loadPlaybook(playbookId: string): Playbook | null {
       }
     }
 
+    // Load templates from templates/ directory
+    const templates: Record<string, string> = {};
+    const templatesDir = join(playbookDir, 'templates');
+    if (existsSync(templatesDir)) {
+      const templateFiles = readdirSync(templatesDir).filter(f => f.endsWith('.md'));
+      for (const file of templateFiles) {
+        const templateName = basename(file, '.md');
+        const templatePath = join(templatesDir, file);
+        templates[templateName] = readFileSync(templatePath, 'utf-8');
+      }
+    }
+
     return {
       metadata,
       protocol,
       role_prompts: rolePrompts,
+      templates: Object.keys(templates).length > 0 ? templates : undefined,
     };
   } catch (error) {
     console.error(`[playbooks] Error loading playbook: ${playbookId}`, error);
@@ -99,4 +113,51 @@ export function loadAllPlaybooks(): Playbook[] {
   }
 
   return playbooks;
+}
+
+/**
+ * Load a specific template from a playbook
+ *
+ * Templates are markdown files in the playbook's templates/ directory.
+ * They provide reusable examples, formats, or boilerplate that agents
+ * can reference without bloating the main role prompts.
+ *
+ * @param playbookId - The playbook ID (e.g., 'architect-team')
+ * @param templateName - The template name without .md extension (e.g., 'delivery-plan')
+ * @returns The template content, or null if not found
+ */
+export function loadPlaybookTemplate(playbookId: string, templateName: string): string | null {
+  const templatePath = join(PLAYBOOKS_DIR, playbookId, 'templates', `${templateName}.md`);
+
+  if (!existsSync(templatePath)) {
+    return null;
+  }
+
+  try {
+    return readFileSync(templatePath, 'utf-8');
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * List available templates for a playbook
+ *
+ * @param playbookId - The playbook ID
+ * @returns Array of template names (without .md extension)
+ */
+export function listPlaybookTemplates(playbookId: string): string[] {
+  const templatesDir = join(PLAYBOOKS_DIR, playbookId, 'templates');
+
+  if (!existsSync(templatesDir)) {
+    return [];
+  }
+
+  try {
+    return readdirSync(templatesDir)
+      .filter(f => f.endsWith('.md'))
+      .map(f => basename(f, '.md'));
+  } catch {
+    return [];
+  }
 }

@@ -71,6 +71,8 @@ export interface Playbook {
   protocol: string;
   /** Map of role ID to prompt markdown content */
   role_prompts: Record<string, string>;
+  /** Map of template name to markdown content (from templates/ directory) */
+  templates?: Record<string, string>;
 }
 
 /**

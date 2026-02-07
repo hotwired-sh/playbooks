@@ -37,7 +37,9 @@ export type {
 export {
   loadAllPlaybooks,
   loadPlaybook,
+  loadPlaybookTemplate,
   listPlaybookIds,
+  listPlaybookTemplates,
   PLAYBOOK_IDS,
   type PlaybookId,
 } from './data.js';

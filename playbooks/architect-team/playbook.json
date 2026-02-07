@@ -1,0 +1,76 @@
+{
+  "id": "architect-team",
+  "name": "Architect & Team",
+  "tagline": "One Architect, Many Builders",
+  "description": "An architect analyzes complex features, creates a rigorous implementation plan, then coordinates up to three workers executing in parallel across repos.",
+  "version": "1.0.0",
+  "icon": "git-branch",
+  "roles": [
+    {
+      "id": "architect",
+      "name": "Architect",
+      "role": "orchestrator",
+      "description": "Analyzes the PRD, creates implementation plan, assigns work, verifies completion",
+      "promptFile": "architect.md",
+      "capabilities": {
+        "canResolveImpediments": true
+      }
+    },
+    {
+      "id": "worker-1",
+      "name": "Worker 1",
+      "role": "implementer",
+      "description": "Executes assigned tasks from the implementation plan",
+      "promptFile": "worker.md",
+      "capabilities": {
+        "canResolveImpediments": false
+      }
+    },
+    {
+      "id": "worker-2",
+      "name": "Worker 2",
+      "role": "implementer",
+      "description": "Executes assigned tasks from the implementation plan",
+      "promptFile": "worker.md",
+      "capabilities": {
+        "canResolveImpediments": false
+      }
+    },
+    {
+      "id": "worker-3",
+      "name": "Worker 3",
+      "role": "implementer",
+      "description": "Executes assigned tasks from the implementation plan",
+      "promptFile": "worker.md",
+      "capabilities": {
+        "canResolveImpediments": false
+      }
+    }
+  ],
+  "phases": [
+    "analyzing",
+    "planning",
+    "executing",
+    "verifying"
+  ],
+  "flow": [
+    "User provides PRD or detailed feature spec",
+    "Architect analyzes codebase thoroughly",
+    "Architect creates implementation plan (.md file)",
+    "Architect assigns work items to workers",
+    "Workers execute in parallel (no file conflicts)",
+    "Architect verifies via tests",
+    "Iterate until complete"
+  ],
+  "humanRole": "Provide the PRD, approve implementation plan, test when requested, resolve push impediments",
+  "bestFor": [
+    "Complex multi-repo features",
+    "Large PRD implementations",
+    "Cross-cutting changes",
+    "Features requiring parallel work"
+  ],
+  "requirements": {
+    "minSpecificity": "high",
+    "requiredInputs": ["PRD, Linear issue, Confluence page, or detailed feature specification"]
+  }
+}

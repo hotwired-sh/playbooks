@@ -9,8 +9,8 @@
  * https://unpkg.com/@hotwired-sh/playbooks/dist/playbooks.json
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Playbook, PlaybookMetadata, PlaybooksManifest, PackageInfo } from '../src/types.js';
 
@@ -21,7 +21,7 @@ const DIST_DIR = join(ROOT_DIR, 'dist');
 const OUTPUT_FILE = join(DIST_DIR, 'playbooks.json');
 const PACKAGE_JSON = join(ROOT_DIR, 'package.json');
 
-const PLAYBOOK_IDS = ['doc-editor', 'plan-build'];
+const PLAYBOOK_IDS = ['architect-team', 'doc-editor', 'plan-build'];
 
 function loadPackageInfo(): PackageInfo {
   const content = readFileSync(PACKAGE_JSON, 'utf-8');
@@ -77,10 +77,23 @@ function loadPlaybook(playbookId: string): Playbook | null {
       }
     }
 
+    // Load templates from templates/ directory
+    const templates: Record<string, string> = {};
+    const templatesDir = join(playbookDir, 'templates');
+    if (existsSync(templatesDir)) {
+      const templateFiles = readdirSync(templatesDir).filter(f => f.endsWith('.md'));
+      for (const file of templateFiles) {
+        const templateName = basename(file, '.md');
+        const templatePath = join(templatesDir, file);
+        templates[templateName] = readFileSync(templatePath, 'utf-8');
+      }
+    }
+
     return {
       metadata,
       protocol,
       role_prompts: rolePrompts,
+      templates: Object.keys(templates).length > 0 ? templates : undefined,
     };
   } catch (error) {
     console.error(`[bundle] Error loading playbook: ${playbookId}`, error);
