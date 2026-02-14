@@ -7,10 +7,12 @@ import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Playbook, PlaybookMetadata } from './types.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// Note: Do NOT use __dirname as variable name - esbuild adds its own shim
+// which causes "Identifier already declared" errors in Lambda bundles
+const __moduleDir = dirname(fileURLToPath(import.meta.url));
 
 // Go up from dist/ to package root, then into playbooks/
-const PLAYBOOKS_DIR = join(__dirname, '..', 'playbooks');
+const PLAYBOOKS_DIR = join(__moduleDir, '..', 'playbooks');
 
 export const PLAYBOOK_IDS = [
   'architect-team',
