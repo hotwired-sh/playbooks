@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/hotwired-sh/playbooks/compare/v1.4.0...v1.4.1) (2026-02-14)
+
+
+### Bug Fixes
+
+* rename __dirname to avoid esbuild shim conflict ([8071e55](https://github.com/hotwired-sh/playbooks/commit/8071e55fc4483923103abd2210cdffccedbde266))
+
 # [1.4.0](https://github.com/hotwired-sh/playbooks/compare/v1.3.0...v1.4.0) (2026-02-07)
 
 
