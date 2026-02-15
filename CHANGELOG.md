@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/hotwired-sh/playbooks/compare/v1.4.2...v2.0.0) (2026-02-15)
+
+
+* feat!: switch all playbook prompts from MCP to CLI commands ([8c7351d](https://github.com/hotwired-sh/playbooks/commit/8c7351df3a4e8e0bc3974fedd223472e9a27d20e))
+
+
+### BREAKING CHANGES
+
+* Requires hotwired-cli installed and in PATH
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+
 ## [1.4.2](https://github.com/hotwired-sh/playbooks/compare/v1.4.1...v1.4.2) (2026-02-15)
 
 
