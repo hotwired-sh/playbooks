@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/hotwired-sh/playbooks/compare/v1.4.1...v1.4.2) (2026-02-15)
+
+
+### Bug Fixes
+
+* change architect-team icon from git-branch to users ([36bb194](https://github.com/hotwired-sh/playbooks/commit/36bb1945a7ae20c2b417e08c1a83eda27c04fce1))
+
 ## [1.4.1](https://github.com/hotwired-sh/playbooks/compare/v1.4.0...v1.4.1) (2026-02-14)
 
 
