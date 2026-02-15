@@ -4,7 +4,7 @@
   "tagline": "One Architect, Many Builders",
   "description": "An architect analyzes complex features, creates a rigorous implementation plan, then coordinates up to three workers executing in parallel across repos.",
   "version": "1.0.0",
-  "icon": "git-branch",
+  "icon": "users",
   "roles": [
     {
       "id": "architect",
