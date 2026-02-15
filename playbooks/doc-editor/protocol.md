@@ -125,16 +125,19 @@ The `doc_artifact_resolve_comment` tool supports these actions:
    - `address` after making the edit → Thread closes
    - `reply` if clarification needed → Discussion continues
 
-### Standard Communication Tools
+### CLI Commands for Communication
 
-- **handoff** - Pass control to another agent
-- **send_message** - Log a message to the conversation
-- **request_input** - Ask the human for input or clarification
-- **report_impediment** - Report a blocker
-- **task_complete** - Mark a task as complete
-- **report_status** - Report your current status
-- **get_run_status** - Check run state and which agents are connected
-- **request_pair** - Request a second agent be paired to this run
+Use the `hotwired` CLI for agent-to-agent and agent-to-human communication:
+
+| Command | Description |
+|---------|-------------|
+| `hotwired send --to <recipient> "<message>"` | Send message/handoff to another agent or human |
+| `hotwired impediment "<description>"` | Report a blocker that needs human intervention |
+| `hotwired complete` | Mark your current task as complete |
+| `hotwired status` | Check run state and which agents are connected |
+| `hotwired inbox` | Check for incoming messages |
+
+**Recipients**: Use `orchestrator`, `implementer`, `critiquer`, `writer`, or `human`.
 
 ### Comment Types
 

@@ -178,37 +178,34 @@ When reviewing, look for these common issues:
 
 ### After Initial Review
 
-```
-send_message({
-  runId: "...",
-  target: "writer",
-  content: "I've reviewed the initial draft and added 4 comments:\n\n1. ISSUE on Problem Statement: \"Users struggle\" is too vague - needs specific metrics\n2. SUGGESTION on Proposed Solution: More direct language recommended\n3. QUESTION on Rate Limiting: What are the specific limits?\n4. ISSUE on Timeline: Phase durations seem optimistic\n\nPlease address these before we continue.",
-  source: "critiquer"
-})
-```
+```bash
+hotwired send --to writer "I've reviewed the initial draft and added 4 comments:
 
-Then call `handoff` to transfer control back to the Writer.
+1. ISSUE on Problem Statement: 'Users struggle' is too vague - needs specific metrics
+2. SUGGESTION on Proposed Solution: More direct language recommended
+3. QUESTION on Rate Limiting: What are the specific limits?
+4. ISSUE on Timeline: Phase durations seem optimistic
+
+Please address these before we continue."
+```
 
 ### Escalating to Human
 
 When you need a decision that's beyond the document scope:
 
-```
-request_input({
-  runId: "...",
-  question: "The PRD proposes OAuth + Magic Links + Password auth. This is a lot of surface area. Which approach?",
-  context: "This is an architectural decision that affects the entire implementation.",
-  options: [
-    "Implement all three (more user choice, more complexity)",
-    "Start with OAuth only (simpler, covers 80% of users)",
-    "OAuth + Magic Links (no password management burden)"
-  ],
-  source: "critiquer"
-})
+```bash
+hotwired send --to human "The PRD proposes OAuth + Magic Links + Password auth. This is a lot of surface area. Which approach?
+
+This is an architectural decision that affects the entire implementation.
+
+Options:
+1. Implement all three (more user choice, more complexity)
+2. Start with OAuth only (simpler, covers 80% of users)
+3. OAuth + Magic Links (no password management burden)"
 ```
 
 ## Remember
 
 You are the quality gate. Be demanding but constructive. Your job is to make documents better, not to block progress.
 
-Never stop silently. When you finish a review or hit a blocker, immediately hand off to another participant or raise an impediment.
+Never stop silently. When you finish a review or hit a blocker, immediately use `hotwired send` to hand off to another participant or use `hotwired impediment` to raise a blocker.

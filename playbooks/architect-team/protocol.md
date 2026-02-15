@@ -32,15 +32,15 @@ This is a **parallel execution** workflow with one Architect coordinating up to 
 The Architect:
 1. Analyzes requirements
 2. Creates implementation plan (`.md` file in repo)
-3. Calls `request_pair` to bring in workers as needed
-4. Assigns tasks via `handoff`
+3. Reports impediment if more workers needed
+4. Assigns tasks via `hotwired send --to worker-N`
 5. Verifies completed work
 6. Assigns next tasks or marks complete
 
 Workers:
 1. Wait for task assignment from Architect
 2. Execute exactly what was assigned
-3. Report back via `handoff`
+3. Report back via `hotwired send --to orchestrator`
 4. Wait for verification and next assignment
 
 ## The Delivery Plan
@@ -69,43 +69,44 @@ Messages from other participants arrive in your terminal:
 sender→recipient: message content
 ```
 
-### MCP Tools for Communication
+### CLI Commands for Communication
 
-- **handoff** - Send work or messages to another agent
-- **send_message** - Log a message to the conversation (visible in dashboard)
-- **request_input** - Ask the human for input or clarification
-- **report_impediment** - Report a blocker that needs human intervention
-- **task_complete** - Mark the entire workflow as complete
-- **report_status** - Report your current status
-- **get_run_status** - Check run state and which agents are connected
-- **request_pair** - Request additional workers be paired to this run
+Use the `hotwired` CLI to communicate:
+
+| Command | Description |
+|---------|-------------|
+| `hotwired send --to <recipient> "<message>"` | Send message/handoff to another agent or human |
+| `hotwired impediment "<description>"` | Report a blocker that needs human intervention |
+| `hotwired complete` | Mark the entire workflow as complete |
+| `hotwired status` | Check run state and which agents are connected |
+| `hotwired inbox` | Check for incoming messages |
+
+**Recipients**: Use `orchestrator`, `worker-1`, `worker-2`, `worker-3`, or `human`.
 
 ### When to Use What
 
-| Situation | Action |
-|-----------|--------|
-| Architect assigning work | `handoff` to specific worker |
-| Worker completed task | `handoff` back to orchestrator |
-| Need human input/decision | `request_input` |
-| Stuck on something | `report_impediment` |
-| Need another worker | `request_pair` |
-| Entire feature complete | `task_complete` |
-| Status update | `send_message` or `report_status` |
+| Situation | Command |
+|-----------|---------|
+| Architect assigning work | `hotwired send --to worker-1 "<task>"` |
+| Worker completed task | `hotwired send --to orchestrator "<summary>"` |
+| Need human input/decision | `hotwired send --to human "<question>"` |
+| Stuck on something | `hotwired impediment "<description>"` |
+| Entire feature complete | `hotwired complete` |
 
-### Handoff Format
+### Message Format
 
-When using `handoff`, structure your message with:
+When sending handoffs, structure your message clearly:
 
-- **summary**: A SHORT one-line synopsis (shown in the dashboard UI)
-- **details**: Full context, instructions, file paths, acceptance criteria
+```bash
+hotwired send --to worker-1 "Task 1.3: Implement GoogleProvider
 
-Example:
-```
-summary: "Task 1.3: Implement GoogleProvider"
-details: "Create src/auth/google.rs implementing OAuthProvider trait. Use google-oauth2 crate. Handle token refresh. Tests required. See implementation plan section 1.3 for full acceptance criteria."
+Create src/auth/google.rs implementing OAuthProvider trait.
+Use google-oauth2 crate. Handle token refresh. Tests required.
+
+See implementation plan section 1.3 for full acceptance criteria."
 ```
 
-Keep summaries under 50 characters. Put everything else in details.
+Keep the first line as a short summary. Add details below.
 
 ## Critical Rules for This Playbook
 
@@ -114,7 +115,7 @@ Keep summaries under 50 characters. Put everything else in details.
 **Neither Architect nor Workers may run `git push`.**
 
 If testing requires code on a remote:
-1. The Architect calls `report_impediment`
+1. The Architect calls `hotwired impediment`
 2. Human handles the push
 3. Workflow resumes after confirmation
 

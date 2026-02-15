@@ -19,46 +19,46 @@ Messages from other participants arrive in your terminal with this format:
 sender→recipient: message content
 ```
 
-### MCP Tools for Communication
+### CLI Commands for Communication
 
-Use these Hotwired MCP tools to communicate:
+Use the `hotwired` CLI to communicate:
 
-- **handoff** - Send work or messages to another agent (routes automatically)
-- **send_message** - Log a message to the conversation (visible in dashboard)
-- **request_input** - Ask the human for input or clarification
-- **report_impediment** - Report a blocker that needs human intervention
-- **task_complete** - Mark a task as complete
-- **report_status** - Report your current status
-- **get_run_status** - Check run state and which agents are connected
-- **request_pair** - Request a second agent be paired to this run
+| Command | Description |
+|---------|-------------|
+| `hotwired send --to <recipient> "<message>"` | Send message/handoff to another agent or human |
+| `hotwired impediment "<description>"` | Report a blocker that needs human intervention |
+| `hotwired complete` | Mark your current task as complete |
+| `hotwired status` | Check run state and which agents are connected |
+| `hotwired inbox` | Check for incoming messages |
+
+**Recipients**: Use `orchestrator`, `implementer`, `human`, or the specific role ID.
 
 ### When to Use What
 
-| Situation | Action |
-|-----------|--------|
-| Need to assign work to another agent | Call `handoff` tool |
-| Need human input/decision | Call `request_input` tool |
-| Stuck on something | Call `report_impediment` tool |
-| Finished a piece of work | Call `handoff` to send back |
-| Task fully complete | Call `task_complete` tool |
-| Periodic status update | Call `report_status` or `send_message` tool |
-| Ready to hand off for the first time | Call `get_run_status` to check if partner is connected |
-| Partner agent not connected | Call `request_pair` — do NOT handoff to nobody |
+| Situation | Command |
+|-----------|---------|
+| Need to assign work to another agent | `hotwired send --to <agent> "<task>"` |
+| Need human input/decision | `hotwired send --to human "<question>"` |
+| Stuck on something | `hotwired impediment "<description>"` |
+| Finished a piece of work | `hotwired send --to orchestrator "<summary>"` |
+| Task fully complete | `hotwired complete` |
+| Check who's connected | `hotwired status` |
 
-### Handoff Format
+### Message Format
 
-When using `handoff`, structure your message with:
+When sending handoffs, structure your message clearly:
 
-- **summary**: A SHORT one-line synopsis (shown in the dashboard UI)
-- **details**: The full context, instructions, file paths, acceptance criteria
+```bash
+hotwired send --to orchestrator "Task 1.2 complete: Implemented OAuth provider
 
-Example:
+Files changed:
+- src/auth/oauth.ts (new)
+- src/auth/index.ts (updated export)
+
+Tests: 5 passing. Ready for review."
 ```
-summary: "Implement GitHub OAuth provider"
-details: "Add GitHub to socialProviders in auth.ts. Create GitHubLogo icon component. Update LoginPage with second button. Files: src/lib/auth.ts, src/components/icons/GitHubLogo.tsx, src/components/LoginPage.tsx"
-```
 
-Keep summaries under 50 characters. Put everything else in details.
+Keep the first line as a short summary. Add details below.
 
 ### Before You Start Working
 
@@ -68,7 +68,7 @@ When you receive a task, **pause and scan for blockers first**:
 2. Are there key decisions that need human input?
 3. Is anything ambiguous that could send you down the wrong path?
 
-**Surface these immediately** using `report_impediment` or `request_input`. It is better to ask 3 questions upfront than to work for 10 minutes and realize you needed guidance. Front-load clarification; don't defer it.
+**Surface these immediately** using `hotwired impediment` or `hotwired send --to human`. It is better to ask 3 questions upfront than to work for 10 minutes and realize you needed guidance. Front-load clarification; don't defer it.
 
 ## Your Goal
 

@@ -77,13 +77,12 @@ Work on exactly what was assigned:
 
 ### 3. Report Back
 
-Use `handoff` to report completion. You MUST include the test files you created:
+Use `hotwired send` to report completion. You MUST include the test files you created:
 
-```javascript
-handoff({
-  to: "orchestrator",
-  summary: "Task 2.3 complete: token storage",
-  details: `Implemented localStorage token persistence.
+```bash
+hotwired send --to orchestrator "Task 2.3 complete: token storage
+
+Implemented localStorage token persistence.
 
 Files changed:
 - src/utils/auth.ts (implementation)
@@ -95,9 +94,7 @@ Tests created:
 - test_clearToken_removes_from_localStorage
 - test_token_persists_across_page_refresh
 
-All 4 tests passing.`,
-  artifacts: ["src/utils/auth.ts", "src/utils/auth.test.ts"]
-})
+All 4 tests passing."
 ```
 
 ### 4. Wait for Verification
@@ -115,55 +112,51 @@ Do NOT start the next task until explicitly assigned.
 
 Can't complete the task due to a technical issue:
 
-```javascript
-report_impediment({
-  type: "technical",
-  description: "Cannot run database migrations",
-  context: "Task 1.4 requires running migrations but the dev database is not accessible. Getting connection refused on localhost:5432.",
-  suggestion: "Need database credentials or a running postgres instance"
-})
+```bash
+hotwired impediment "Cannot run database migrations
+
+Task 1.4 requires running migrations but the dev database is not accessible.
+Getting connection refused on localhost:5432.
+
+Suggestion: Need database credentials or a running postgres instance"
 ```
 
 ### Unclear Requirements
 
 Task doesn't make sense or is ambiguous:
 
-```
-[Orchestrator]
-Clarification needed on Task 2.3:
+```bash
+hotwired send --to orchestrator "Clarification needed on Task 2.3:
 
-The plan says "implement token storage" but doesn't specify:
+The plan says 'implement token storage' but doesn't specify:
 1. Should tokens be in localStorage or sessionStorage?
 2. Should we encrypt the token before storing?
 3. What's the key name to use?
 
-Please advise before I proceed.
-[/Orchestrator]
+Please advise before I proceed."
 ```
 
 ### Dependency Not Ready
 
 Your task depends on another worker's output:
 
-```
-[Orchestrator]
-Blocked on Task 2.4:
+```bash
+hotwired send --to orchestrator "Blocked on Task 2.4:
 
-I need the AuthToken type from the shared package (Task 3.1) but it doesn't exist yet. Worker 3 may not have completed it.
+I need the AuthToken type from the shared package (Task 3.1) but it doesn't exist yet.
+Worker 3 may not have completed it.
 
-Can you verify and let me know when I can proceed?
-[/Orchestrator]
+Can you verify and let me know when I can proceed?"
 ```
 
 ## Communication Examples
 
 ### Good Completion Report
 
-```javascript
-handoff({
-  to: "orchestrator",
-  summary: "Task 1.2 complete: OAuth provider trait",
-  details: `Created src/auth/oauth.rs with:
+```bash
+hotwired send --to orchestrator "Task 1.2 complete: OAuth provider trait
+
+Created src/auth/oauth.rs with:
 - OAuthProvider trait with authenticate() and refresh() methods
 - ProviderConfig struct for client_id, secret, redirect_uri
 - Error types for auth failures
@@ -180,9 +173,7 @@ Tests created in oauth_test.rs:
 - test_mock_provider_authenticate_returns_token
 - test_mock_provider_refresh_extends_expiry
 
-All 5 tests passing. Ready for your review of test coverage.`,
-  artifacts: ["src/auth/oauth.rs", "src/auth/mod.rs", "src/auth/oauth_test.rs"]
-})
+All 5 tests passing. Ready for your review of test coverage."
 ```
 
 ### Bad Completion Report (Don't Do This)

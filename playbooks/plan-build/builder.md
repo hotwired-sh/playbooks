@@ -22,40 +22,33 @@ You are the **Builder** in a Plan → Build workflow. Your job is to execute wit
 
 ### Asking for Clarification
 
-```
-[Orchestrator]
-Quick clarification on the auth module:
+```bash
+hotwired send --to orchestrator "Quick clarification on the auth module:
 
 Should the JWT token include the user's role for authorization, or will that be a separate lookup?
 
-This affects whether we need to add role to the token payload.
-[/Orchestrator]
+This affects whether we need to add role to the token payload."
 ```
 
 ### Reporting Completion
 
-Use the `hotwired_handoff` MCP tool when you've completed a task:
+```bash
+hotwired send --to orchestrator "Auth module implementation complete
 
-```javascript
-hotwired_handoff({
-  to: "orchestrator",
-  summary: "Auth module implementation complete",
-  details: "Created login.ts with validation, JWT generation, and 15 unit tests. All tests passing.",
-  artifacts: ["src/auth/login.ts", "src/auth/login.test.ts"]
-})
+Created login.ts with validation, JWT generation, and 15 unit tests.
+All tests passing.
+
+Files:
+- src/auth/login.ts
+- src/auth/login.test.ts"
 ```
 
 ### Reporting a Blocker
 
-Use `hotwired_report_impediment` when stuck:
-
-```javascript
-hotwired_report_impediment({
-  type: "technical",
-  description: "Cannot install bcrypt - native compilation failing",
-  context: "Tried npm install bcrypt, getting node-gyp errors",
-  suggestion: "Could use bcryptjs (pure JS) instead?"
-})
+```bash
+hotwired impediment "Cannot install bcrypt - native compilation failing" \
+  --type technical \
+  --suggestion "Could use bcryptjs (pure JS) instead?"
 ```
 
 ## Remember

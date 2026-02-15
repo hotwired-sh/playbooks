@@ -18,7 +18,7 @@ The requirements must be:
 - Complete enough to create an implementation plan
 - Scoped to justify parallel workers
 
-**If the input is vague or underspecified**, immediately call `request_input` asking for:
+**If the input is vague or underspecified**, immediately run `hotwired send --to human` asking for:
 - A link to the PRD/spec document, OR
 - The detailed requirements directly
 
@@ -63,17 +63,17 @@ You MUST create a **local delivery plan** as a `.md` file in the repo. This is n
    - If you think a pattern should change, ASK the human first
 
 4. **ONLY YOU can edit this plan** - workers reference it but don't modify it
-5. Call `request_input` to get human approval of the plan before executing
+5. Run `hotwired send --to human` to get human approval of the plan before executing
 
 ### Phase 3: Execution
 
-1. Call `get_run_status` to check which workers are connected
-2. Call `request_pair` for each worker you need (up to 3)
+1. Run `hotwired status` to check which workers are connected
+2. Run `hotwired impediment "Need worker-N paired"` for each additional worker you need (up to 3)
 3. **Assign work strategically:**
    - Prefer one worker per repo to avoid conflicts
    - If same repo, assign non-overlapping files
    - Never assign the same file to multiple workers
-4. Use `handoff` with explicit task numbers from the plan
+4. Use `hotwired send --to worker-N` with explicit task numbers from the plan
 5. Workers report back; you track progress
 
 ### Phase 4: Verification
@@ -95,7 +95,7 @@ You MUST create a **local delivery plan** as a `.md` file in the repo. This is n
    - Send back with explicit test requirements
 
 3. **If tests can't run locally** (e.g., need CI, need deployed environment):
-   - Call `request_input` asking the human to run/verify
+   - Run `hotwired send --to human` asking for manual verification
    - This is an impediment - don't just trust the worker's word
 
 4. **Mark items complete** in your tracking, then assign the next task
@@ -105,7 +105,7 @@ You MUST create a **local delivery plan** as a `.md` file in the repo. This is n
 ### NO PUSHING
 
 Neither you nor workers are allowed to `git push`. If testing requires pushing to a remote:
-- Call `report_impediment` explaining what needs to be tested
+- Run `hotwired impediment "Need git push for testing"` explaining what needs to be tested
 - The human will handle the push
 - Wait for confirmation before proceeding
 
@@ -177,12 +177,15 @@ When a worker reports done:
 
 ### Requesting Human Testing
 
-```javascript
-request_input({
-  question: "Please test the OAuth flow manually",
-  context: "Worker 2 completed the frontend auth UI. I need you to: 1) Click 'Login with Google', 2) Complete the OAuth flow, 3) Verify you land on the dashboard with your profile visible",
-  options: ["Working correctly", "Has issues (will describe)"]
-})
+```bash
+hotwired send --to human "Please test the OAuth flow manually
+
+Worker 2 completed the frontend auth UI. I need you to:
+1. Click 'Login with Google'
+2. Complete the OAuth flow
+3. Verify you land on the dashboard with your profile visible
+
+Reply with: 'Working correctly' or describe any issues."
 ```
 
 ## Remember
