@@ -1,6 +1,6 @@
 {
   "name": "@hotwired-sh/playbooks",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Playbook definitions for Hotwired multi-agent workflows",
   "author": "Hotwired <hello@hotwired.sh>",
   "license": "MIT",

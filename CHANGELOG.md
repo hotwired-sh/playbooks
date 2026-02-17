@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/hotwired-sh/playbooks/compare/v2.1.0...v2.1.1) (2026-02-17)
+
+
+### Bug Fixes
+
+* writer must wait for human acceptance before implementing critiquer suggestions ([04664f1](https://github.com/hotwired-sh/playbooks/commit/04664f1c6b717e74a93321e06b21a4d415ea6447))
+
 # [2.1.0](https://github.com/hotwired-sh/playbooks/compare/v2.0.0...v2.1.0) (2026-02-17)
 
 
