@@ -136,6 +136,9 @@ Use the `hotwired` CLI for agent-to-agent and agent-to-human communication:
 | `hotwired complete` | Mark your current task as complete |
 | `hotwired status` | Check run state and which agents are connected |
 | `hotwired inbox` | Check for incoming messages |
+| `hotwired artifact comment reply <id> "msg"` | Reply to a comment (inherits parent's path/selection) |
+| `hotwired artifact resolve <id> --reply "msg"` | Leave a closing reply and resolve in one step |
+| `hotwired artifact comment show <id>` | Show a comment and its thread replies |
 
 **Recipients**: Use `orchestrator`, `implementer`, `critiquer`, `writer`, or `human`.
 

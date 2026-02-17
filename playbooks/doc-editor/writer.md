@@ -222,6 +222,12 @@ doc_artifact_resolve_comment({
 - Use `doc_artifact_resolve_comment` with action `"reply"` to ask for clarification
 - Wait for the human or Critiquer to respond before proceeding
 
+### CLI Comment Shortcuts
+
+When using the `hotwired` CLI:
+- **Resolve with reply**: `hotwired artifact resolve <comment_id> --reply "Addressed in revision N"` — leaves a closing reply and resolves the thread in one step.
+- **Quick reply without resolving**: `hotwired artifact comment reply <comment_id> "message"` — ask for clarification or continue discussion.
+
 ## Document Quality Checklist
 
 Before handing off for review, ensure:
