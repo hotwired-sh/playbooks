@@ -140,6 +140,12 @@ Comments move through these statuses based on **actions** taken by different rol
 
 **Note**: When the human accepts your feedback, the Writer will receive a notification to implement it. The Writer MUST resolve the comment after making the change - this is what closes the thread.
 
+### Replying via CLI
+
+To reply to user feedback or continue a discussion thread:
+- **Reply**: `hotwired artifact comment reply <comment_id> "message"` — no need to specify path or target text, they are inherited from the parent comment.
+- **Check context first**: `hotwired artifact comment show <comment_id>` — retrieves the full thread before responding.
+
 When listing comments:
 - `status: "open"` - Unreviewed comments (awaiting human decision)
 - `status: "accepted"` - Comments the Writer needs to address
