@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/hotwired-sh/playbooks/compare/v2.0.0...v2.1.0) (2026-02-17)
+
+
+### Features
+
+* add CLI reply and resolve-with-reply commands to playbooks ([36cde82](https://github.com/hotwired-sh/playbooks/commit/36cde823448ebbaab90145d7d44ce98b3297bb99))
+
 # [2.0.0](https://github.com/hotwired-sh/playbooks/compare/v1.4.2...v2.0.0) (2026-02-15)
 
 
