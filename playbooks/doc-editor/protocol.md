@@ -40,7 +40,7 @@ DOCUMENT_TYPE: prd | spec | design | rfc | notes
 TITLE: <document title>
 DESCRIPTION: <what this document should cover>
 ```
-→ Writer creates a new document via `doc_artifact_create`, then drafts initial content.
+→ Writer creates the file using the `Write` tool, then runs `hotwired artifact sync <path>` to track it.
 
 **Open Existing Document:**
 ```
@@ -48,7 +48,7 @@ ACTION: open
 FILE_PATH: docs/features/licensing.md   ← FULL PATH from project root
 GOAL: <what to do with this document>
 ```
-→ Writer opens the file via `doc_artifact_open`, making it a tracked artifact.
+→ Writer runs `hotwired artifact sync <path>` to register the file as a tracked artifact, then reads it.
 
 **⚠️ CRITICAL**: FILE_PATH must be the FULL relative path from the project root (e.g., `docs/features/file.md`), not just a filename. Bare filenames like `file.md` may resolve to the wrong file if multiple files share that name.
 
@@ -88,32 +88,41 @@ However, **responsibility for responding is role-specific**:
 
 **Key principle**: Just because you SEE a message doesn't mean you should ACT on it. Check if it's directed to your role.
 
-### MCP Tools for Documents
+### Document Tools
 
-Use these Hotwired MCP tools for document collaboration:
+Document operations use **standard Claude Code tools** for file I/O, plus **`hotwired` CLI commands** for artifact tracking and comments.
 
-| Tool | Purpose | Who Can Use |
-|------|---------|-------------|
-| `doc_artifact_create` | Create a new document artifact | Writer |
-| `doc_artifact_open` | Open existing file as tracked artifact | Writer |
-| `doc_artifact_read` | Read document content with pagination | Both |
-| `doc_artifact_edit` | Edit document content | Writer only |
-| `doc_artifact_search` | Search within document | Both |
-| `doc_artifact_add_comment` | Add comment to text region | Both |
-| `doc_artifact_resolve_comment` | Take action on a comment (see actions below) | Both (but roles use different actions) |
-| `doc_artifact_list_comments` | List all comments | Both |
-| `doc_artifact_list` | List all artifacts in run | Both |
+#### File Operations (Standard Tools)
 
-### Comment Actions (Who Does What)
+| Operation | Tool | Notes |
+|-----------|------|-------|
+| Create a new file | `Write` | Write the file, then `hotwired artifact sync` to track it |
+| Read file content | `Read` | Standard file read — no special artifact tool needed |
+| Edit file content | `Edit` | Standard file edit, then `hotwired artifact sync` to snapshot the version |
+| Search file content | `Grep` | Standard content search — no special artifact tool needed |
 
-The `doc_artifact_resolve_comment` tool supports these actions:
+#### Artifact Tracking & Comments (CLI)
+
+| Command | Purpose | Who Can Use |
+|---------|---------|-------------|
+| `hotwired artifact sync <path>` | Register file as tracked artifact (or update/snapshot) | Writer |
+| `hotwired artifact ls` | List all tracked artifacts in run | Both |
+| `hotwired artifact comment add <path> "<target_text>" "<message>"` | Add comment anchored to specific text | Both |
+| `hotwired artifact comment reply <comment_id> "<message>"` | Reply to a comment (inherits parent's anchor) | Both |
+| `hotwired artifact comment list <path> [--status open]` | List comments on an artifact | Both |
+| `hotwired artifact comment show <comment_id>` | Show a comment and its thread | Both |
+| `hotwired artifact resolve <comment_id> [--reply "<msg>"]` | Resolve a comment, optionally with closing reply | Both (but roles use different semantics) |
+
+**Key pattern**: Edit the file with standard tools, then run `hotwired artifact sync <path>` to create a versioned snapshot. Comments anchor to text content and are automatically relocated when the file changes.
+
+### Comment Workflow (Who Does What)
 
 | Action | Used By | Effect | Thread |
 |--------|---------|--------|--------|
-| **accept** | Human | Approves feedback - signals Writer to address it | Stays open |
-| **reject** | Human | Disagrees with feedback - closes the thread | **Closes entire thread** |
-| **reply** | Any | Continues discussion - adds response to thread | Stays open |
-| **address** | Writer | Writer has fixed the issue - closes the thread | **Closes entire thread** |
+| **accept** | Human | Approves feedback — signals Writer to address it | Stays open |
+| **reject** | Human | Disagrees with feedback — closes the thread | **Closes entire thread** |
+| **reply** | Any | Continues discussion — adds response to thread | Stays open |
+| **resolve** (address) | Writer | Writer has fixed the issue — closes the thread | **Closes entire thread** |
 
 **Key workflow:**
 1. Critiquer adds a comment → status is `open`
@@ -122,8 +131,8 @@ The `doc_artifact_resolve_comment` tool supports these actions:
    - `reject` → Thread closes, no action needed
    - `reply` → Discussion continues
 3. Writer sees accepted comments and either:
-   - `address` after making the edit → Thread closes
-   - `reply` if clarification needed → Discussion continues
+   - Resolves after making the edit (`hotwired artifact resolve <id>`) → Thread closes
+   - Replies if clarification needed (`hotwired artifact comment reply <id> "msg"`) → Discussion continues
 
 ### CLI Commands for Communication
 
@@ -153,14 +162,12 @@ When adding comments, choose the appropriate type:
 | **issue** | Flagging a problem | "This section lacks concrete acceptance criteria" |
 | **comment** | General feedback | "Good structure here, consider expanding examples" |
 
-### Conflict Detection
+### Version Tracking
 
-Every edit requires a `contentHash` that must match the current document state. If you get a "hash mismatch" error:
-1. Call `doc_artifact_read` to get the fresh content and hash
-2. Re-evaluate your edit in context of the new content
-3. Retry with the new hash
-
-This prevents conflicting edits when multiple agents work simultaneously.
+After making edits, always run `hotwired artifact sync <path>` to create a versioned snapshot. This:
+- Records the new file content as a version
+- Automatically relocates comment anchors to match the updated text
+- Reports how many comments were relocated or orphaned
 
 ## Your Goal
 

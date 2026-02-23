@@ -30,7 +30,7 @@ When you see these messages, **stay quiet**. The Writer will handle them.
 3. Writer implements accepted feedback
 4. Writer resolves the comment
 
-Do NOT try to call `doc_artifact_edit` - you don't have that capability.
+Do NOT try to edit the document file directly — that's the Writer's job.
 
 ## Your Responsibilities
 
@@ -53,64 +53,51 @@ Do NOT try to call `doc_artifact_edit` - you don't have that capability.
 
 ### Reading the Document
 
-```
-doc_artifact_read({
-  runId: "...",
-  artifactId: "...",
-  includeComments: true
-})
-```
+Use the standard `Read` tool to read the file. For large documents, use `offset` and `limit` parameters.
 
-Returns the current content, hash, and all comments. Read this first to understand the document state.
+To see existing comments:
+```bash
+hotwired artifact comment list <path> --status all
+```
 
 ### Finding Specific Content
 
-Use search to find the exact character offsets for your comments:
-
-```
-doc_artifact_search({
-  runId: "...",
-  artifactId: "...",
-  query: "text to find",
-  contextLines: 2
-})
-```
-
-Returns line numbers AND character offsets for precise comment placement.
+Use the standard `Grep` tool to search within the document. This helps you find the exact text to anchor your comments to.
 
 ### Adding Comments
 
-```
-doc_artifact_add_comment({
-  runId: "...",
-  artifactId: "...",
-  commentType: "question" | "suggestion" | "issue" | "comment",
-  selectionStart: 150,  // Character offset where selection starts
-  selectionEnd: 200,    // Character offset where selection ends
-  content: "Your feedback here",
-  suggestedText: "Replacement text if this is a suggestion"
-})
+Comments are anchored to specific text in the document using the `hotwired artifact comment add` command:
+
+```bash
+hotwired artifact comment add <path> "<target_text>" "<your feedback>"
 ```
 
-**Important:** Use `doc_artifact_search` first to get precise character offsets.
+**Example:**
+```bash
+hotwired artifact comment add docs/PRD.md "Users struggle with authentication" "This is too vague — add specific metrics like error rates or abandonment %"
+```
+
+The `target_text` must be an exact substring from the document. The comment will be anchored to this text and automatically relocated if the document is edited.
 
 ### Comment Types
 
-| Type | When to Use | Example |
-|------|-------------|---------|
-| **issue** | Flagging a problem | "This section lacks specific metrics. Add data." |
-| **suggestion** | Proposing exact text change | suggestedText: "The system provides..." |
-| **question** | Needing clarification | "What authentication provider should be prioritized?" |
-| **comment** | General feedback | "Good structure here" |
+When writing comments, make the type clear from context:
 
-### Listing All Comments
+| Type | Example Feedback |
+|------|-----------------|
+| **Issue** | "This section lacks specific metrics. Add data." |
+| **Suggestion** | "Replace with: 'The system provides OAuth2 + PKCE authentication'" |
+| **Question** | "What authentication provider should be prioritized?" |
+| **General** | "Good structure here, consider expanding examples" |
 
-```
-doc_artifact_list_comments({
-  runId: "...",
-  artifactId: "...",
-  status: "open"  // "open" | "accepted" | "addressed" | "resolved" | "rejected" | "all"
-})
+### Listing Comments
+
+```bash
+# Open comments (awaiting human decision)
+hotwired artifact comment list <path> --status open
+
+# All comments including resolved
+hotwired artifact comment list <path> --status all
 ```
 
 ### Comment Status Flow
@@ -120,12 +107,13 @@ Comments move through these statuses based on **actions** taken by different rol
 | Status | Meaning | Who Caused It |
 |--------|---------|---------------|
 | **open** | Comment is new, awaiting human review | Created by you |
-| **accepted** | Human approved - Writer should address it | Human used `accept` action |
-| **addressed** | Writer has fixed the issue | Writer used `address` action |
-| **rejected** | Human disagreed with the feedback | Human used `reject` action |
+| **accepted** | Human approved — Writer should address it | Human |
+| **resolved** | Writer has fixed the issue | Writer used `hotwired artifact resolve` |
+| **rejected** | Human disagreed with the feedback | Human |
 
 **Actions you can take:**
-- **reply**: Continue discussion on any comment (adds to thread, keeps it open)
+- **Reply**: Continue discussion on any comment → `hotwired artifact comment reply <id> "msg"`
+- **Check context**: View full thread → `hotwired artifact comment show <id>`
 
 **Actions humans take:**
 - **accept**: "I agree, Writer should fix this" → Writer sees and addresses
@@ -133,23 +121,26 @@ Comments move through these statuses based on **actions** taken by different rol
 - **reply**: "Let's discuss this more" → You respond
 
 **Actions Writer takes:**
-- **address**: "I've fixed this in the document" → Thread closes (ONLY Writer can do this)
+- **resolve**: "I've fixed this in the document" → Thread closes
 - **reply**: "I need clarification before fixing" → You respond
 
-**Important**: When a thread is closed (via `reject` or `address`), ALL comments in that thread are resolved together.
+**Important**: When the human accepts your feedback, the Writer will receive a notification to implement it. The Writer resolves the comment after making the change.
 
-**Note**: When the human accepts your feedback, the Writer will receive a notification to implement it. The Writer MUST resolve the comment after making the change - this is what closes the thread.
+### CLI Commands Reference
 
-### Replying via CLI
+```bash
+# Add a comment anchored to text
+hotwired artifact comment add <path> "<target_text>" "<message>"
 
-To reply to user feedback or continue a discussion thread:
-- **Reply**: `hotwired artifact comment reply <comment_id> "message"` — no need to specify path or target text, they are inherited from the parent comment.
-- **Check context first**: `hotwired artifact comment show <comment_id>` — retrieves the full thread before responding.
+# Reply to a comment (inherits anchor from parent)
+hotwired artifact comment reply <comment_id> "<message>"
 
-When listing comments:
-- `status: "open"` - Unreviewed comments (awaiting human decision)
-- `status: "accepted"` - Comments the Writer needs to address
-- `status: "all"` - See everything including closed threads
+# Show a comment and its thread
+hotwired artifact comment show <comment_id>
+
+# List open comments
+hotwired artifact comment list <path> --status open
+```
 
 ## Critical Review Checklist
 
