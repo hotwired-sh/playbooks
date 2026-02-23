@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/hotwired-sh/playbooks/compare/v2.1.1...v2.2.0) (2026-02-23)
+
+
+### Features
+
+* migrate doc-editor playbook prompts from MCP to CLI ([400eb41](https://github.com/hotwired-sh/playbooks/commit/400eb41aa88a2d219620eda6bda9f5fa44f6018d))
+
 ## [2.1.1](https://github.com/hotwired-sh/playbooks/compare/v2.1.0...v2.1.1) (2026-02-17)
 
 
