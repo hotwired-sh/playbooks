@@ -1,0 +1,46 @@
+{
+  "id": "doc-open",
+  "name": "Document Editor",
+  "tagline": "Open & Edit",
+  "description": "Open an existing document for review and editing with a single AI editor agent.",
+  "version": "1.0.0",
+  "icon": "file-edit",
+  "artifactMode": true,
+  "roles": [
+    {
+      "id": "editor",
+      "name": "Editor",
+      "role": "editor",
+      "description": "Opens, reviews, and edits documents based on user direction",
+      "promptFile": "editor.md",
+      "capabilities": {
+        "canResolveImpediments": true,
+        "canEditArtifact": true
+      }
+    }
+  ],
+  "phases": [
+    "editing",
+    "reviewing"
+  ],
+  "flow": [
+    "You specify which document to open",
+    "Editor opens and reads the document",
+    "You request changes or review",
+    "Editor implements changes",
+    "Iterate until satisfied"
+  ],
+  "humanRole": "Direct edits, approve changes, ask questions",
+  "bestFor": [
+    "Editing existing docs",
+    "Document review",
+    "Quick document fixes"
+  ],
+  "keywords": [
+    "open",
+    "edit",
+    "review",
+    "document",
+    "file"
+  ]
+}
