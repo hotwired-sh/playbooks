@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/hotwired-sh/playbooks/compare/v2.2.0...v2.3.0) (2026-03-19)
+
+
+### Features
+
+* add doc-open playbook for single-agent document editing ([c5412b0](https://github.com/hotwired-sh/playbooks/commit/c5412b08a2d645cddec5aa5cb044473fa5c0e1c3))
+
 # [2.2.0](https://github.com/hotwired-sh/playbooks/compare/v2.1.1...v2.2.0) (2026-02-23)
 
 
