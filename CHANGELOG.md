@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/hotwired-sh/playbooks/compare/v2.3.0...v2.4.0) (2026-03-20)
+
+
+### Features
+
+* include doc-open playbook in bundle manifest ([5062a84](https://github.com/hotwired-sh/playbooks/commit/5062a845aecd9568560b8ef9645c43959cf1f5af))
+
 # [2.3.0](https://github.com/hotwired-sh/playbooks/compare/v2.2.0...v2.3.0) (2026-03-19)
 
 
