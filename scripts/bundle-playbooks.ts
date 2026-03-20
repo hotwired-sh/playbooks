@@ -21,7 +21,7 @@ const DIST_DIR = join(ROOT_DIR, 'dist');
 const OUTPUT_FILE = join(DIST_DIR, 'playbooks.json');
 const PACKAGE_JSON = join(ROOT_DIR, 'package.json');
 
-const PLAYBOOK_IDS = ['architect-team', 'doc-editor', 'plan-build'];
+const PLAYBOOK_IDS = ['architect-team', 'doc-editor', 'doc-open', 'plan-build'];
 
 function loadPackageInfo(): PackageInfo {
   const content = readFileSync(PACKAGE_JSON, 'utf-8');
